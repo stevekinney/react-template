@@ -19,7 +19,7 @@ export function getAuthorName() {
   try {
     return execSync('git config --get user.name', { encoding: 'utf8' }).trim();
   } catch {
-    return process.env.GIT_Steve Kinney || process.env.GIT_COMMITTER_NAME || 'Unknown Author';
+    return process.env.GIT_AUTHOR_NAME || process.env.GIT_COMMITTER_NAME || 'Unknown Author';
   }
 }
 
@@ -32,7 +32,7 @@ function capitalCase(str) {
   return str.replace(/\b\w/g, (l) => l.toUpperCase());
 }
 
-const projectName = capitalCase(process.env.Project-Name || pkg.name || path.basename(directory));
+const projectName = capitalCase(process.env.PROJECT_NAME || pkg.name || path.basename(directory));
 const authorName = getAuthorName();
 const currentYear = new Date().getFullYear().toString();
 
