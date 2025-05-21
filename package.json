@@ -1,0 +1,88 @@
+{
+  "name": "project-name",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "bun": "./dist/index.js",
+    "node": "./dist/index.js"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "bun --watch run src/index.ts",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky",
+    "start": "bun run src/index.ts",
+    "start:prod": "bun run dist/index.js",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "test:watch": "bun test --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,mjs,cjs}": [
+      "eslint --fix",
+      "bun test -- --findRelatedTests"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  },
+  "dependencies": {
+    "zod": "^3.25.17"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.27.0",
+    "@eslint/markdown": "^6.4.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/bun": "^1.2.13",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-import-resolver-typescript": "^4.3.5",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-regexp": "^2.7.0",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-unicorn": "^59.0.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^16.1.0",
+    "husky": "^9.1.7",
+    "jsonc-eslint-parser": "^2.4.0",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3",
+    "sort-package-json": "^3.2.1",
+    "typescript-eslint": "^8.32.1"
+  },
+  "peerDependencies": {
+    "typescript": "5.8.3"
+  },
+  "engines": {
+    "bun": ">=1.13.0"
+  },
+  "bun-create": {
+    "preinstall": [
+      "echo 'Setting up…'",
+      "git init"
+    ],
+    "postinstall": [
+      "bun ./scripts/setup-template.js",
+      "rm -rf scripts"
+    ],
+    "start": "bun run dev"
+  }
+}

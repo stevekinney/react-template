@@ -1,0 +1,84 @@
+# Project-Name Bun Configuration
+# Documentation: https://bun.sh/docs/runtime/bunfig
+
+# Development server configuration
+[serve]
+# Default port for the development server
+port = 3000
+# Entry point for the development server
+entrypoint = "src/index.ts"
+# Enable hot module replacement for faster development
+hmr = true
+# Add middleware or plugins for the development server
+
+[serve.middleware]
+# Example: path regex and middleware handling
+# "*/api/*" = "./middlewares/api-middleware.ts"
+
+# Static file serving configuration
+[serve.static]
+# Serve static files from these directories
+directory = "./public"
+# Configure plugins if needed
+plugins = ["bun-plugin-tailwind"]
+
+# Build configuration
+[build]
+# Target environment for builds
+target = "bun"
+# Output directory for builds
+outdir = "dist"
+# Entry point for builds
+entrypoint = "src/index.ts"
+# Minify output for production builds
+minify = true
+# Source maps for debugging
+sourcemap = "external"
+
+# Bundler configuration
+[bundle]
+# Entry points for bundling
+entrypoints = ["src/index.ts"]
+# Output format (esm, cjs, etc.)
+format = "esm"
+# Enable code-splitting for better chunking and lazy loading
+splitting = true
+# External dependencies to exclude from bundling
+external = []
+# Naming pattern for output files
+naming = """
+{
+  "entry": "[dir]/[name].[ext]",
+  "chunk": "[name]-[hash].[ext]",
+  "asset": "assets/[name]-[hash].[ext]"
+}
+"""
+
+# Development bundle configuration - inherits from [bundle]
+[bundle.development]
+# Generate inline source maps for easier debugging
+sourcemap = "inline"
+# Skip minification for faster builds
+minify = false
+# Use simpler naming scheme
+naming = """
+{
+  "entry": "[dir]/[name].[ext]",
+  "chunk": "[name].[ext]",
+  "asset": "assets/[name].[ext]"
+}
+"""
+
+# Production bundle configuration - inherits from [bundle]
+[bundle.production]
+# Generate external source maps
+sourcemap = "external"
+# Enable all minification options
+minify = { syntax = true, whitespace = true, identifiers = true }
+
+# Runtime configuration
+[runtime]
+# Allow top-level await
+allowTopLevelAwait = true
+# Enable watch mode with file extensions to monitor
+watch = [".ts", ".tsx", ".js", ".jsx", ".json"]

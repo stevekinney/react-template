@@ -1,0 +1,2 @@
+# Validate commit message format using commitlint
+bun exec commitlint --edit $1

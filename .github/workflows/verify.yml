@@ -1,0 +1,63 @@
+name: Build, Test, and Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies and install cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun
+            ~/.cache/bun
+            ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Cache TypeScript build info
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/tsconfig*.tsbuildinfo
+          key: ${{ runner.os }}-ts-${{ hashFiles('**/tsconfig*.json') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ts-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Check for template placeholders
+        run: |
+          if grep -r "Project-Name\|2025\|Steve Kinney" src/ README.md LICENSE bunfig.toml 2>/dev/null; then
+            echo "❌ Template placeholders found! Run the setup script or replace manually."
+            exit 1
+          fi
+          echo "✅ No template placeholders found"
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Check types
+        run: bun run typecheck
+
+      - name: Test
+        run: bun run test
+
+      - name: Build
+        run: bun run build

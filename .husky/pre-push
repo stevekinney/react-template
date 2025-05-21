@@ -1,0 +1,34 @@
+# Get list of staged files
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Only run checks if there are staged files
+if [ -n "$staged_files" ]; then
+  # Run lint-staged which handles linting and formatting for staged files
+  bunx lint-staged &
+  lint_staged_pid=$!
+
+  # Run quick typecheck (full project check is still needed for type dependencies)
+  echo "Running typecheck..."
+  bun run typecheck &
+  typecheck_pid=$!
+
+  # Run tests for staged files only
+  echo "Running tests for changed files..."
+  echo "$staged_files" | grep -E '\.(ts|tsx|js|jsx)$' | xargs -r bun test --findRelatedTests &
+  test_pid=$!
+
+  # Wait for all processes and check exit codes
+  wait $lint_staged_pid && lint_staged_success=1 || lint_staged_success=0
+  wait $typecheck_pid && typecheck_success=1 || typecheck_success=0
+  wait $test_pid && test_success=1 || test_success=0
+
+  # Exit with error if any process failed
+  if [ $lint_staged_success -eq 0 ] || [ $typecheck_success -eq 0 ] || [ $test_success -eq 0 ]; then
+    echo "❌ Pre-push checks failed"
+    exit 1
+  fi
+
+  echo "✅ All pre-push checks passed"
+else
+  echo "No staged files to check."
+fi
