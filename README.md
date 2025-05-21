@@ -70,6 +70,24 @@ The Git hooks are powered by:
 
 For more details on using and customizing these hooks, see [GIT_HOOKS.md](docs/GIT_HOOKS.md).
 
+#### Interactive Commit Messages with Commitizen
+
+This template includes [Commitizen](https://commitizen-tools.github.io/commitizen/) with `@commitlint/cz-commitlint` for guided commit message creation:
+
+```bash
+bun run commit
+```
+
+This command launches an interactive prompt that helps you create properly formatted conventional commits. The prompt will guide you through:
+
+- Selecting the type of change (feat, fix, chore, etc.)
+- Adding a scope (optional)
+- Writing a clear, descriptive subject
+- Adding a detailed body (optional)
+- Noting any breaking changes
+
+The interactive prompt ensures your commit messages are consistent with the project's commitlint configuration and follow conventional commit standards.
+
 ### Running Tests
 
 This template comes with Bun's built-in test runner. To run tests:
