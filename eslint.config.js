@@ -182,7 +182,8 @@ export default [
     languageOptions: {
       parser: tseslintParser,
       parserOptions: {
-        project: ['./tsconfig.json'],
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     plugins: {
