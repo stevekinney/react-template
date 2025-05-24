@@ -1,45 +1,38 @@
-import { zValidator } from '@hono/zod-validator';
+import { zValidator as validator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import { deleteCookie, setCookie } from 'hono/cookie';
+import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import { jwt, sign } from 'hono/jwt';
-import { z } from 'zod';
+import type { User } from '../types';
+import { getJwtSecret, isProduction } from '../utilities';
+import { loginSchema, signupSchema } from './schemas';
 
-// In-memory data store
-interface User {
-  id: string;
-  email: string;
-  password: string; // In production, this should be hashed
-  createdAt: Date;
-}
+const JWT_SECRET = getJwtSecret();
 
 const users = new Map<string, User>();
 const sessions = new Map<string, string>(); // token -> userId
 
-// JWT secret - in production, use environment variable
-const JWT_SECRET = 'your-secret-key-change-in-production';
-
-// Schemas
-const signupSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
 // Create auth router
 export const auth = new Hono();
 
+const createToken = async (userId: string, email: string) => {
+  const payload = {
+    sub: userId,
+    email,
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+  };
+
+  return await sign(payload, JWT_SECRET);
+};
+
 // Signup endpoint - create new user
-auth.post('/signup', zValidator('json', signupSchema), async (c) => {
+auth.post('/signup', validator('json', signupSchema), async (c) => {
   const { email, password } = c.req.valid('json');
 
   // Check if user already exists
   const existingUser = Array.from(users.values()).find(
     (u) => u.email === email,
   );
+
   if (existingUser) {
     return c.json({ error: 'User already exists' }, 400);
   }
@@ -55,20 +48,13 @@ auth.post('/signup', zValidator('json', signupSchema), async (c) => {
 
   users.set(userId, newUser);
 
-  // Create JWT token
-  const payload = {
-    sub: userId,
-    email: email,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hours
-  };
-
-  const token = await sign(payload, JWT_SECRET);
+  const token = await createToken(userId, email);
   sessions.set(token, userId);
 
   // Set cookie
   setCookie(c, 'auth-token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isProduction,
     sameSite: 'Lax',
     maxAge: 60 * 60 * 24, // 24 hours
   });
@@ -83,7 +69,7 @@ auth.post('/signup', zValidator('json', signupSchema), async (c) => {
 });
 
 // Login endpoint
-auth.post('/login', zValidator('json', loginSchema), async (c) => {
+auth.post('/login', validator('json', loginSchema), async (c) => {
   const { email, password } = c.req.valid('json');
 
   // Find user by email
@@ -92,20 +78,13 @@ auth.post('/login', zValidator('json', loginSchema), async (c) => {
     return c.json({ error: 'Invalid credentials' }, 401);
   }
 
-  // Create JWT token
-  const payload = {
-    sub: user.id,
-    email: user.email,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hours
-  };
-
-  const token = await sign(payload, JWT_SECRET);
+  const token = await createToken(user.id, user.email);
   sessions.set(token, user.id);
 
   // Set cookie
   setCookie(c, 'auth-token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isProduction,
     sameSite: 'Lax',
     maxAge: 60 * 60 * 24, // 24 hours
   });
@@ -124,12 +103,10 @@ auth.post(
   '/logout',
   jwt({ secret: JWT_SECRET, cookie: 'auth-token' }),
   async (c) => {
-    const payload = c.get('jwtPayload');
-
     // Remove session
     const authHeader = c.req.header('Authorization');
     const token =
-      authHeader?.replace('Bearer ', '') || c.req.cookie('auth-token');
+      authHeader?.replace('Bearer ', '') || getCookie(c, 'auth-token');
 
     if (token) {
       sessions.delete(token);
@@ -197,7 +174,7 @@ auth.delete(
 
 // Debug endpoint to list all users (remove in production)
 auth.get('/debug/users', (c) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (isProduction) {
     return c.json({ error: 'Not available in production' }, 403);
   }
 

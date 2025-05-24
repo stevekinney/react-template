@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { auth } from './auth';
+import { auth } from './auth/auth';
 import { api } from './routes';
 
 const app = new Hono();
 const port = process.env['PORT'] || 3000;
+
+export const runtime = 'edge';
 
 if (import.meta.env.MODE === 'development') {
   // Enable CORS in development mode
