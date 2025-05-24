@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { auth } from './auth';
 import { api } from './routes';
 
 const app = new Hono();
@@ -12,6 +13,9 @@ if (import.meta.env.MODE === 'development') {
 
 // API routes
 app.route('/api', api);
+
+// Auth routes
+app.route('/auth', auth);
 
 // Health check
 app.get('/', (c) => {
