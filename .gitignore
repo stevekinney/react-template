@@ -97,3 +97,6 @@ test-output/
 
 # Repomix summary
 repomix-output.xml
+
+# LLM Reference
+reference
