@@ -1,15 +1,15 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { auth } from './auth/auth';
+import { auth } from './auth';
 import { api } from './routes';
+import { isProduction } from './utilities';
 
-const app = new Hono();
+export const app = new Hono<{ Bindings: { PORT?: string } }>();
 const port = process.env['PORT'] || 3000;
 
 export const runtime = 'edge';
 
-if (import.meta.env.MODE === 'development') {
-  // Enable CORS in development mode
+if (!isProduction) {
   app.use('*', cors({ origin: '*' }));
 }
 
@@ -30,3 +30,5 @@ export default {
   port,
   fetch: app.fetch,
 };
+
+export type * from './routes';

@@ -4,7 +4,7 @@
     "lib": ["ESNext"],
     "target": "ES2022",
     "module": "ESNext",
-    "moduleDetection": "auto",
+    "moduleDetection": "force",
     "allowJs": false,
     "checkJs": false,
 
@@ -17,6 +17,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+
+    // Path mappings for monorepo
+    "paths": {
+      "@api/*": ["./api/*"],
+      "@ui/*": ["./ui/*"]
+    },
 
     // Type checking - Strict mode
     "strict": true,
@@ -42,16 +49,16 @@
     // Performance improvements
     "incremental": true,
     "tsBuildInfoFile": "node_modules/.cache/tsconfig.tsbuildinfo",
-    "assumeChangesOnlyAffectDirectDependencies": true,
-    "diagnostics": true,
 
     // DX improvements
     "allowSyntheticDefaultImports": true,
     "preserveWatchOutput": true,
 
     // Type definitions
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["bun"]
   },
-  "include": ["ui", "api", "vite.config.ts"],
-  "exclude": ["node_modules", "coverage", "**/dist/**", "**/build/**"]
+  "include": ["vite.config.ts"],
+  "exclude": ["node_modules", "coverage", "**/dist/**", "**/build/**"],
+  "references": [{ "path": "./api" }, { "path": "./ui" }]
 }

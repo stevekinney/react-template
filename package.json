@@ -7,19 +7,19 @@
     "bun": "./dist/index.js",
     "node": "./dist/index.js"
   },
-  "workspaces": [
-    "ui",
-    "api"
-  ],
   "scripts": {
     "dev": "concurrently --kill-others-on-fail \"bun run dev:server\" \"bun run dev:client\" --names=api,ui -c cyan,magenta",
-    "dev:client": "cd ui && bun run dev",
-    "dev:server": "cd api && bun run dev",
+    "dev:client": "vite",
+    "dev:server": "bun --watch run api/index.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "types:all": "tsc --build",
+    "types:api": "tsc --build api",
+    "types:generate": "bun run scripts/generate-api-types-advanced.ts",
+    "types:ui": "tsc --build ui"
   },
   "lint-staged": {
     "*.{js,ts,tsx,jsx,mjs,cjs}": [
@@ -33,15 +33,32 @@
       "sort-package-json"
     ]
   },
+  "dependencies": {
+    "@hono/zod-validator": "^0.5.0",
+    "@supabase/supabase-js": "^2.49.8",
+    "arctic": "^3.7.0",
+    "esm-env": "^1.2.2",
+    "hono": "^4.7.10",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0",
+    "tailwindcss": "^4.1.7",
+    "zod": "^3.25.28"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
     "@eslint/markdown": "^6.4.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@tailwindcss/vite": "^4.1.7",
     "@types/bun": "latest",
     "@types/node": "latest",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
+    "@vitejs/plugin-react": "^4.5.0",
     "concurrently": "^9.1.2",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
@@ -59,12 +76,12 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.1.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.0.0",
-    "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "sort-package-json": "^3.2.1",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
-    "vercel": "^42.1.1"
+    "vercel": "^42.1.1",
+    "vite": "^6.3.5"
   },
   "peerDependencies": {
     "typescript": "5.8.3"
