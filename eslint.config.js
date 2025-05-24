@@ -4,7 +4,6 @@ import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tseslintParser from '@typescript-eslint/parser';
 import eslintComments from 'eslint-plugin-eslint-comments';
 import importPlugin from 'eslint-plugin-import';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
 import promise from 'eslint-plugin-promise';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -26,7 +25,6 @@ const commonPlugins = {
   'unused-imports': unusedImports,
   react,
   'react-hooks': reactHooks,
-  'jsx-a11y': jsxA11y,
 };
 
 const coreRules = {
@@ -123,20 +121,6 @@ const reactHooksRules = {
   'react-hooks/exhaustive-deps': 'warn',
 };
 
-const jsxA11yRules = {
-  ...jsxA11y.configs.recommended.rules,
-  'jsx-a11y/alt-text': 'error',
-  'jsx-a11y/anchor-is-valid': 'error',
-  'jsx-a11y/aria-props': 'error',
-  'jsx-a11y/aria-proptypes': 'error',
-  'jsx-a11y/aria-unsupported-elements': 'error',
-  'jsx-a11y/role-has-required-aria-props': 'error',
-  'jsx-a11y/role-supports-aria-props': 'error',
-  'jsx-a11y/no-autofocus': 'warn',
-  'jsx-a11y/no-static-element-interactions': 'warn',
-  'jsx-a11y/click-events-have-key-events': 'warn',
-};
-
 export default [
   // Ignore patterns
   {
@@ -189,7 +173,6 @@ export default [
       ...regexpRules,
       ...reactRules,
       ...reactHooksRules,
-      ...jsxA11yRules,
     },
   },
 

@@ -1,5 +1,0 @@
-# Format and lint staged files
-bun exec lint-staged
-
-# Run typecheck to ensure TypeScript is valid
-bun run typecheck

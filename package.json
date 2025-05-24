@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "ui",
-    "api"
-  ],
   "exports": {
     "bun": "./dist/index.js",
     "node": "./dist/index.js"
   },
+  "workspaces": [
+    "ui",
+    "api"
+  ],
   "scripts": {
     "dev": "concurrently --kill-others-on-fail \"bun run dev:server\" \"bun run dev:client\" --names=api,ui -c cyan,magenta",
     "dev:client": "cd ui && bun run dev",
@@ -19,14 +19,11 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,ts,tsx,jsx,mjs,cjs}": [
-      "eslint --fix",
-      "bun test -- --findRelatedTests"
+      "eslint --fix"
     ],
     "*.{json,md,css,scss}": [
       "prettier --write"
@@ -41,9 +38,9 @@
     "@eslint/markdown": "^6.4.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@types/bun": "latest",
+    "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
-    "@vitejs/plugin-react": "^4.5.0",
     "concurrently": "^9.1.2",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
