@@ -3,6 +3,7 @@
     "oven.bun-vscode",
     "dbaeumer.vscode-eslint",
     "github.vscode-github-actions",
-    "EditorConfig.EditorConfig"
+    "EditorConfig.EditorConfig",
+    "bradlc.vscode-tailwindcss"
   ]
 }

@@ -6,7 +6,6 @@
       "type": "bun",
       "request": "launch",
       "program": "${workspaceFolder}/src/index.ts",
-      "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "env": {
         "NODE_ENV": "development"
@@ -17,15 +16,13 @@
       "type": "bun",
       "request": "launch",
       "program": "test",
-      "args": ["--inspect-wait"],
-      "console": "integratedTerminal"
+      "args": ["--inspect-wait"]
     },
     {
       "name": "Debug Current File",
       "type": "bun",
       "request": "launch",
       "program": "${file}",
-      "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
   ]

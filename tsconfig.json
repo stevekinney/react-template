@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     // Environment and ECMAScript features
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext"],
     "target": "ES2022",
-    "module": "Node16",
+    "module": "ESNext",
     "moduleDetection": "auto",
-    "jsx": "react-jsx",
     "allowJs": false,
     "checkJs": false,
 
     // Module resolution
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
@@ -46,21 +45,13 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "diagnostics": true,
 
-    // Path resolution
-    "baseUrl": ".",
-    "rootDir": "src",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-
     // DX improvements
     "allowSyntheticDefaultImports": true,
     "preserveWatchOutput": true,
 
     // Type definitions
-    "typeRoots": ["node_modules/@types"],
-    "types": ["node", "bun"]
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src"],
+  "include": ["ui", "api", "vite.config.ts"],
   "exclude": ["node_modules", "coverage", "**/dist/**", "**/build/**"]
 }
