@@ -1,4 +1,4 @@
-# Project-Name
+# Full Stack React Boilerplate
 
 ## Prerequisites
 
@@ -106,3 +106,7 @@ To disable Dependabot if you prefer Renovate, simply delete the `.github/dependa
 - **bun run**: Executes scripts defined in your project's package.json (like `bun run dev` runs the "dev" script). Also runs local TypeScript/JavaScript files directly (like `bun run src/index.ts`).
 
 - **bunx**: Executes binaries from npm packages without installing them globally (similar to `npx`). Use it for one-off commands or tools you don't need permanently installed (like `bunx prettier --write .` or `bunx shadcn@canary add button`).
+
+## Known Issues
+
+The UI tries to set the cookie when the authentication is complete. This works fine in Chrome, but doesn't work in Safari currently.
