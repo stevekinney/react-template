@@ -11,8 +11,11 @@ export const useCurrentUser = () => {
       if (session) {
         setUser(session.user);
         setSession(session);
+        document.cookie = `token=${session.access_token}; path=/; max-age=31536000; secure; SameSite=Lax`;
       } else {
         setUser(null);
+        setSession(null);
+        document.cookie = 'token=; path=/; max-age=0; secure; SameSite=Lax';
       }
     });
   }, [setUser]);

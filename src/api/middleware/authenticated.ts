@@ -32,6 +32,8 @@ export const authenticated = createMiddleware<{
     token = getCookie(c, 'token');
   }
 
+  console.log('Token:', token);
+
   if (!token) {
     throw new HTTPException(401, {
       message:

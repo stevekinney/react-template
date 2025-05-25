@@ -8,19 +8,22 @@
     "node": "./dist/index.js"
   },
   "scripts": {
+    "build": "vite build",
+    "build:api": "bun build src/api/index.ts --outdir=api --target=bun",
     "dev": "concurrently --kill-others-on-fail \"bun run dev:server\" \"bun run dev:client\" --names=api,ui -c cyan,magenta",
     "dev:client": "vite",
-    "dev:server": "bun --watch run api/index.ts",
+    "dev:server": "bun --watch run src/api/index.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
+    "preview": "vite preview",
     "setup:supabase": "bunx supabase start",
     "types:all": "tsc --build",
-    "types:api": "tsc --build api",
+    "types:api": "tsc --build src/api",
     "types:generate": "bun run scripts/generate-api-types-advanced.ts",
-    "types:ui": "tsc --build ui"
+    "types:ui": "tsc --build src/ui"
   },
   "lint-staged": {
     "*.{js,ts,tsx,jsx,mjs,cjs}": [

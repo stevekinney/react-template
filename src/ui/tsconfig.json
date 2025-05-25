@@ -1,7 +1,6 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    // Frontend-specific settings
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -10,15 +9,6 @@
     "noEmit": false,
     "emitDeclarationOnly": true,
     "declaration": true,
-
-    // Inherit path mappings and add UI-specific ones
-    "paths": {
-      "$supabase": ["./ui/supabase"],
-      "@api/*": ["./api/*"],
-      "@ui/*": ["./ui/*"]
-    },
-
-    // Type definitions
     "types": ["react", "react-dom", "react-router", "vite/client"]
   },
   "include": ["**/*.ts", "**/*.tsx"]
