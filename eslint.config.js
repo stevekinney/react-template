@@ -75,7 +75,6 @@ const regexpRules = {
 const typeScriptRules = {
   ...tseslintPlugin.configs.recommended.rules,
   '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-  '@typescript-eslint/no-floating-promises': 'error',
   '@typescript-eslint/consistent-type-imports': 'off',
   '@typescript-eslint/await-thenable': 'error',
 };

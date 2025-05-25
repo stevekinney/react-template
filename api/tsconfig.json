@@ -1,24 +1,22 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "composite": true,
     "rootDir": ".",
-    "outDir": "./dist",
     "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
 
     // API-specific settings
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "allowImportingTsExtensions": true,
-    "noEmit": false,
+    "noEmit": true,
     "emitDeclarationOnly": true,
     "declaration": true,
     "declarationDir": "./dist",
 
     // Path mappings
     "paths": {
-      "@api/*": ["./*"],
-      "@ui/*": ["../ui/*"]
+      "@api/*": ["./api/*"],
+      "@ui/*": ["./ui/*"]
     },
 
     // Type definitions
@@ -26,5 +24,6 @@
     "lib": ["ESNext"]
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist", "build"]
+  "exclude": ["node_modules", "dist", "build"],
+  "references": []
 }

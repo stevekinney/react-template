@@ -16,6 +16,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
+    "setup:supabase": "bunx supabase start",
     "types:all": "tsc --build",
     "types:api": "tsc --build api",
     "types:generate": "bun run scripts/generate-api-types-advanced.ts",
@@ -37,11 +38,14 @@
     "@hono/zod-validator": "^0.5.0",
     "@supabase/supabase-js": "^2.49.8",
     "arctic": "^3.7.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "esm-env": "^1.2.2",
     "hono": "^4.7.10",
+    "kebab-case": "^2.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.0",
+    "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
     "zod": "^3.25.28"
   },
@@ -49,13 +53,11 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
     "@eslint/markdown": "^6.4.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@tailwindcss/vite": "^4.1.7",
     "@types/bun": "latest",
     "@types/node": "latest",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
-    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-react": "^4.5.0",
@@ -78,10 +80,12 @@
     "husky": "^9.1.7",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "sort-package-json": "^3.2.1",
+    "supabase": "^2.23.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "vercel": "^42.1.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "peerDependencies": {
     "typescript": "5.8.3"
@@ -93,6 +97,10 @@
     "preinstall": [
       "echo 'Setting up…'",
       "git init"
+    ],
+    "postinstall": [
+      "bun install",
+      "bun run setup:supabase"
     ]
   }
 }

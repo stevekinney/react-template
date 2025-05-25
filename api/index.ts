@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { auth } from './auth';
+import { HTTPException } from 'hono/http-exception';
 import { api } from './routes';
 import { isProduction } from './utilities';
 
@@ -13,11 +13,29 @@ if (!isProduction) {
   app.use('*', cors({ origin: '*' }));
 }
 
+// Error handling middleware
+app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    return c.json(
+      {
+        error: err.message,
+        status: err.status,
+      },
+      err.status,
+    );
+  }
+
+  return c.json(
+    {
+      error: 'Internal Server Error',
+      status: 500,
+    },
+    500,
+  );
+});
+
 // API routes
 app.route('/api', api);
-
-// Auth routes
-app.route('/auth', auth);
 
 // Health check
 app.get('/', (c) => {

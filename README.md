@@ -10,7 +10,22 @@ Create a new project based on this template:
 
 ```bash
 # Basic installation
-bun create github.com/stevekinney/bun-template $PROJECT_DIRECTORY
+bun create github.com/stevekinney/react-template $PROJECT_DIRECTORY
+```
+
+### Setting Up Supabase
+
+Once you have the basic setup in place, you'll want to set up a local environment for [Supabase](https://supabase.com).
+
+```sh
+bun run supabase:setup
+```
+
+This will provide you with some environment variables that we can use. Place these in `.env`.
+
+```sh
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1N…
 ```
 
 ## Development
@@ -20,14 +35,6 @@ Start the development server:
 ```bash
 bun run dev
 ```
-
-### Redis
-
-This project uses [Bun's built-in Redis client](https://bun.sh/docs/api/redis). By default it will look for the `REDIS_URL` when establishing a connection.
-
-### Data Persistence
-
-You can either use Bun's built-in [PostgreSQL support](https://bun.sh/docs/api/sql) or [SQLite support](https://bun.sh/docs/api/sqlite).
 
 ### Git Hooks with Husky
 

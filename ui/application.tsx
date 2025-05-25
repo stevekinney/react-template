@@ -1,38 +1,36 @@
 import { useState } from 'react';
+import { Authentication } from './components/authentication';
+import { Button } from './components/button';
 
 function Application() {
   const [message, setMessage] = useState<string | null>(null);
 
   const handleClick = async () => {
-    const response = await fetch('/api/check');
+    const response = await fetch('/api/protected');
     const data = await response.json();
+
     if (response.ok) {
       setMessage(data.message);
     } else {
-      setMessage('Error: ' + data.message);
+      setMessage('Error: ' + data.error);
     }
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-4 bg-slate-100 mt-8 rounded-lg shadow-md">
-      <button
-        className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 text-white active:outline-blue-200 active:outline-2 active:outline-offset-2"
-        onClick={handleClick}
-      >
-        Check the API
-      </button>
-      {message && (
-        <div className="bg-slate-200 p-4 mt-4 rounded-lg flex items-center justify-between">
-          <p>{message}</p>
-          <button
-            className="bg-red-300 px-2 py-1 text-sm rounded hover:bg-red-400 mt-2"
-            onClick={() => setMessage(null)}
-          >
-            Clear Message
-          </button>
-        </div>
-      )}
-    </div>
+    <main className="space-y-8 my-8 mx-auto max-w-2xl px-4 md:px-0">
+      <Authentication />
+      <div className="p-4 bg-slate-100 rounded-lg shadow-md">
+        <Button onClick={handleClick}>Check the Protected API</Button>
+        {message && (
+          <div className="bg-slate-200 flex-col md:flex-row p-4 mt-4 rounded-lg flex items-center justify-between gap-4">
+            <p>{message}</p>
+            <Button variant="secondary" onClick={() => setMessage(null)}>
+              Clear
+            </Button>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
 
