@@ -24,7 +24,8 @@
     // Path mappings for monorepo
     "paths": {
       "@api/*": ["./src/api/*"],
-      "@ui/*": ["./src/ui/*"]
+      "@ui/*": ["./src/ui/*"],
+      "@shared/*": ["./src/shared/*"]
     },
 
     // Type checking - Strict mode
@@ -58,6 +59,6 @@
     "typeRoots": ["./node_modules/@types"],
     "types": ["bun"]
   },
-  "include": ["vite.config.ts"],
+  "include": ["vite.config.ts", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "coverage", "**/dist/**", "**/build/**"]
 }

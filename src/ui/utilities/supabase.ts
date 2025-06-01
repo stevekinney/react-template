@@ -1,8 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { env } from '@shared/environment';
 
-export const supabase = createClient(
-  import.meta.env['SUPABASE_URL']!,
-  import.meta.env['SUPABASE_ANON_KEY']!,
-);
+export const supabase = createClient(env.supabase.url, env.supabase.anonKey);
 
 export type { SupabaseClient };

@@ -3,9 +3,10 @@ import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { api } from './routes';
 import { isProduction } from './utilities';
+import { env } from '@shared/environment';
 
 export const app = new Hono<{ Bindings: { PORT?: string } }>();
-const port = process.env['PORT'] || 3000;
+const port = env.port;
 
 export const runtime = 'edge';
 

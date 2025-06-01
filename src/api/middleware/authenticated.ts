@@ -2,11 +2,9 @@ import { createClient, type User } from '@supabase/supabase-js';
 import { getCookie } from 'hono/cookie';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
+import { env } from '@shared/environment';
 
-const supabase = createClient(
-  import.meta.env['SUPABASE_URL']!,
-  import.meta.env['SUPABASE_ANON_KEY']!,
-);
+const supabase = createClient(env.supabase.url, env.supabase.anonKey);
 
 /**
  * Middleware to check if the user is authenticated.
