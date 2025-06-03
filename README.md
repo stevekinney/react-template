@@ -18,7 +18,7 @@ bun create github.com/stevekinney/react-template $PROJECT_DIRECTORY
 Once you have the basic setup in place, you'll want to set up a local environment for [Supabase](https://supabase.com).
 
 ```sh
-bun run supabase:setup
+bun run setup:supabase
 ```
 
 This will provide you with some environment variables that we can use. Place these in `.env`.
